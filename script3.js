@@ -123,7 +123,7 @@ $.fn.incrementAudioClass = function(){
 	
 	//wait to play audio during video
 setTimeout(function(){	
-		setTimeout(function(){audio.play()}, (videoDuration - videoDuration/3)); 
+		setTimeout(function(){audio.play()}, videoDuration/2); 
 	}, 250);
 	
 	console.log("audio timing" + ' ' + videoDuration - videoDuration/3);
