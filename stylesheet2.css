@@ -52,19 +52,6 @@ body {
 	
 }
 
-
-/*
-div {
-  background-image: url(_DSC2043.png);
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-*/
-
-
-
 .imageArray {
 	
 	display: none;
@@ -75,17 +62,47 @@ li{
 	list-style: none;
 }
 
- h1{
+
+ .nav p{
 	
 	position: absolute;
+	display:inline;
 	color: white;
 	margin: 10;
-	font-size: 60px;
-	left: 100px;
-	top: 70px;
+	font-size: 225%;
+	letter-spacing: 20px;
+	left: 8%;
+	top: 300px;
 	opacity: 0;
 	
+	display: none;
+	
 }
+
+#leftNav{
+	opacity: 0.75;
+	cursor: pointer;
+	padding-top: 20px;
+	z-index: 510;
+}
+
+#rightNav{
+	opacity: 0.75;
+	cursor: pointer;
+	padding-top: 20px;
+	z-index: 510;
+
+}
+
+#playPause{
+	
+	opacity: 0.75;
+	cursor: pointer;
+	padding-top: 20px;
+	z-index: 510;
+
+}
+
 
 li.currentTrackNumber {
 
@@ -102,7 +119,7 @@ li.currentTrackNumber {
 
 }
 
-li.currentTrack {
+li.currentTrack	{
 
 	position: absolute;
 	line-height: 92%;
@@ -126,26 +143,36 @@ li.currentTrack {
 	
 }
 
-
 .audiojs{
 	
 	display: none;
 	
 } 
 
-em.played{
+.audiojs .time{
 	
-	color:white;
-	font-size: 40px;
+	position: absolute;
+	line-height: 92%;
+	text-transform: uppercase;
+	z-index: 500;
+	color: white;
+	margin: 10;
+	width: 40%; 
+	font-size: 225%;
+	left: 8%;
+	top: 230px;
+ 	opacity: 0; 
+ 	display: none;
 	
 }
 
 
+
 video {
 	
-	position: fixed; right: 0; bottom: 0;
+	position: fixed; right: 0; bottom: 0; 
 
-	min-width: 100%; min-height: 100%;
+	min-width: 100%; min-height: 100%; 
 	
 	width: auto; height: auto; z-index: -100;
 	

@@ -3,15 +3,17 @@ $(document).ready(function(){
 	
 //track number setup and initial animation	
 $('li.inactiveTrackNumber').hide().animate({top: '70px', opacity: '1'}, 1000);	
-	setTimeout(function(){$('li.currentTrackNumber').show().animate({top: '100px', opacity: '1'}, 1000)}, 2500);
+	setTimeout(function(){$('li.currentTrackNumber').show().animate({top: '100px', opacity: '1'}, 1000)}, 2000);
 
 //track title setup and initial animation	
 $('li.inactiveTrack').hide().css({top: '220px', opacity: '0'});
 	setTimeout(function(){$('li.currentTrack').show().animate({top: '200px', opacity: '1'}, 1000)}, 4000);
 
+$('div.nav p').hide().css({top: 145+$('li.currentTrack').outerHeight()+'px', opacity: '0'}, 1000); 	
+	setTimeout(function(){$('div.nav p').show().animate({top: 140+$('li.currentTrack').outerHeight()+'px', opacity: '1'}, 1000)}, 6000);
+
 //hide all inactive videos
 $('li.inactiveVideo').hide();
-
 
 
 	
@@ -29,9 +31,6 @@ var prevImageClass = $('li.currentImage');
 var prevTrackNumberClass = $('li.currentTrackNumber');
 
 var videoDuration = 0;
-
-
-
 
 
 
@@ -66,6 +65,8 @@ trackEnded: function() {
 		
 });
 
+
+
 $.fn.incrementVideoClass = function(){
 	
 //increment through li array	
@@ -92,7 +93,7 @@ $.fn.incrementVideoClass = function(){
 //find how long video is to calculate timing from
 	video.addEventListener ('loadedmetadata', function(){
 		videoDuration = (video.duration)*1000;
- 		console.log("video loop" + ' ' + videoDuration); 
+/*  		console.log("video loop" + ' ' + videoDuration);  */
 	});
 	
 //fade video when video ends	
@@ -126,33 +127,31 @@ setTimeout(function(){
 		setTimeout(function(){audio.play()}, videoDuration/2); 
 	}, 250);
 	
-	console.log("audio timing" + ' ' + videoDuration - videoDuration/3);
+/*
+	audio.addEventListener ('loadedmetadata', function(){
+		audioDuration = audio.duration;
+  		console.log(audioDuration); 
+	});
+*/
+	
 }
 
+//arrow animation
+$.fn.navFade = function(){
 
-$.fn.incrementTrackClass = function(){
+	$(this).hover(function(){
+	$(this).stop().animate({opacity: "1"}, 250);
+}, function(){
+	$(this).stop().animate({opacity: "0.5"}, 250);
 	
-	 $(this)
-	 	.removeClass('inactiveTrack')
-		.addClass('currentTrack')
-		.siblings()
-		.removeClass('currentTrack')
-		.addClass('inactiveTrack');
-		
-
-
-//track title animation setup --> reset animation
-	$('li.inactiveTrack').animate({top: '220', opacity: '0'}, 2000).hide(); 
-
-setTimeout(function (){
-	setTimeout(function(){
-		$('li.currentTrack').show().animate({top: '200px', opacity: '1'}, 1000);
-	}, videoDuration+750);	
-	
-	console.log("track loop" + ' ' + videoDuration+500);
-						
-	}, 200);
+});
 }
+
+$('#rightNav').navFade();
+$('#leftNav').navFade();
+$('#playPause').navFade();
+
+
 
 $.fn.incrementTrackNumberClass = function(){
 	
@@ -171,11 +170,42 @@ setTimeout(function (){
 		$('li.currentTrackNumber').show().animate({top: '100px', opacity: '1'}, 1000)
 	}, videoDuration+750);
 	
-	console.log("track Number loop" + ' ' + videoDuration+500);
+/* 	console.log("track Number loop" + ' ' + videoDuration+500); */
 	
 	}, 200);
 }
 
+
+$.fn.incrementTrackClass = function(){
+	
+	 $(this)
+	 	.removeClass('inactiveTrack')
+		.addClass('currentTrack')
+		.siblings()
+		.removeClass('currentTrack')
+		.addClass('inactiveTrack');
+		
+
+
+//track title animation setup --> reset animation
+	$('li.inactiveTrack').animate({top: '220', opacity: '0'}, 2000).hide();
+	$('div.nav p').animate({top: 145+$('li.currentTrack').outerHeight()+'px', opacity: '0'}, 1000).hide(); 
+
+setTimeout(function (){
+	setTimeout(function(){
+		$('li.currentTrack').show().animate({top: '200px', opacity: '1'}, 1000);
+		
+		setTimeout(function(){
+			$('div.nav p').show().animate({top: 140+$('li.currentTrack').outerHeight()+'px', opacity: '1'}, 1000);
+			}, 2000);
+			
+	}, videoDuration+750);	
+		
+	
+/* 	console.log("track loop" + ' ' + videoDuration+500); */
+						
+	}, 200);
+}
 
 
 $.fn.incrementImageClass = function(){
@@ -193,9 +223,12 @@ $.fn.incrementImageClass = function(){
 	setTimeout( function(){
 		$('body').css({'background-image' : "url(" + imageBackground + ")"});	
 	}, 2000);
-	
-	
+		
 }
+
+
+
+
 
 
 
@@ -204,6 +237,7 @@ $(document).keydown(function(evt) {
 
 	var e = evt || event;
     var code = e.keyCode || e.which;
+    
 
 // right arrow
 if (code == 39) {
@@ -289,6 +323,82 @@ audio.playPause();
 }
 
 })
+
+$('#rightNav').on('click',function(){
+	
+		var video = document.querySelector('li.currentVideo video');
+		var source = document.querySelectorAll('li.currentVideo video source');
+		video.pause();
+
+//------Video incrementor
+		nextVideoClass = $('li.currentVideo').next();
+		if(!nextVideoClass.length) nextVideoClass = $('ol.videoTracks li').first();
+		nextVideoClass.incrementVideoClass();
+
+//audio incrementor
+ nextAudioClass = $('li.playing').next();
+if (!nextAudioClass.length) nextAudioClass = $('ol.audioArray li').first();
+nextAudioClass.incrementAudioClass();
+
+//--track name incrementor
+	nextTrackClass = $('li.currentTrack').next();
+	if(!nextTrackClass.length) nextTrackClass = $('ol.trackNames li').first();
+	nextTrackClass.incrementTrackClass();
+		
+//----------Image incrementor		
+			nextImageClass = $('li.currentImage').next();
+			if(!nextImageClass.length) nextImageClass = $('ol.images li').first();
+			nextImageClass.incrementImageClass();
+		
+//--------------Track Number incrementor			
+				nextTrackNumberClass = $('li.currentTrackNumber').next();
+				if(!nextTrackNumberClass.length) nextTrackNumberClass = $('ol.trackNumber li').first();
+				nextTrackNumberClass.incrementTrackNumberClass();
+	
+});
+
+
+
+$('#leftNav').on('click',function(){
+		
+		var video = document.querySelector('li.currentVideo video');
+		var source = document.querySelectorAll('li.currentVideo video source');
+		video.pause();
+
+//------video incrementor	
+		prevVideoClass = $('li.currentVideo').prev();
+		if(!prevVideoClass.length) prevVideoClass = $('ol.videoTracks li').last();
+		prevVideoClass.incrementVideoClass();
+		
+
+//audio incrementor
+ prevAudioClass = $('li.playing').prev();
+if (!prevAudioClass.length) prevAudioClass = $('ol.audioArray li').last();
+prevAudioClass.incrementAudioClass();
+
+//--track Name incrementor
+	prevTrackClass = $('li.currentTrack').prev();
+	if(!prevTrackClass.length) prevTrackClass = $('ol.trackNames li').last();
+	prevTrackClass.incrementTrackClass();
+
+
+//----------Image incrementor		
+			prevImageClass = $('li.currentImage').prev();
+			if(!prevImageClass.length) prevImageClass = $('ol.images li').last();
+			prevImageClass.incrementImageClass();
+	
+//--------------Track Number incrementor			
+				prevTrackNumberClass = $('li.currentTrackNumber').prev();
+				if(!prevTrackNumberClass.length) prevTrackNumberClass = $('ol.trackNumber li').last();
+				prevTrackNumberClass.incrementTrackNumberClass();
+	
+});
+
+$('#playPause').on('click', function(){
+	
+	audio.playPause();
+	
+});
 
 
 	
