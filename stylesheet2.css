@@ -80,14 +80,14 @@ li{
 }
 
 #leftNav{
-	opacity: 0.75;
+	opacity: 0.5;
 	cursor: pointer;
 	padding-top: 20px;
 	z-index: 510;
 }
 
 #rightNav{
-	opacity: 0.75;
+	opacity: 0.5;
 	cursor: pointer;
 	padding-top: 20px;
 	z-index: 510;
@@ -96,7 +96,7 @@ li{
 
 #playPause{
 	
-	opacity: 0.75;
+	opacity: 0.5;
 	cursor: pointer;
 	padding-top: 20px;
 	z-index: 510;
