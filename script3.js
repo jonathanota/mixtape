@@ -31,7 +31,7 @@ var prevVideoClass = $('li.currentVideo');
 var prevImageClass = $('li.currentImage');
 var prevTrackNumberClass = $('li.currentTrackNumber');
 
-var videoDuration = 0;
+var videoDuration = 13000;
 
 var audioTrackLength = 0;
 
