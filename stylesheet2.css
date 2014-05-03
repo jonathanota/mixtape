@@ -103,6 +103,16 @@ li{
 
 }
 
+#songDuration{
+	
+	position: absolute;
+	background: white;
+	left: 8%;
+	height: 8px;
+	top: 146px;
+	opacity: 0;
+}
+
 
 li.currentTrackNumber {
 
@@ -110,7 +120,7 @@ li.currentTrackNumber {
 	z-index: 500;
 	color: white;
 	margin: 10;
-	width: 40%; 
+	width: 6.8em; 
 	font-size: 275%;
 	left: 8%;
 	top: 70px;
@@ -127,7 +137,7 @@ li.currentTrack	{
 	z-index: 500;
 	color: white;
 	margin: 10;
-	width: 40%; 
+	width: 10em; 
 	font-size: 225%;
 	left: 8%;
 	top: 220px;

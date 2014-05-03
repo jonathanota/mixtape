@@ -9,6 +9,7 @@ $('li.inactiveTrackNumber').hide().animate({top: '70px', opacity: '1'}, 1000);
 $('li.inactiveTrack').hide().css({top: '220px', opacity: '0'});
 	setTimeout(function(){$('li.currentTrack').show().animate({top: '200px', opacity: '1'}, 1000)}, 4000);
 
+//nav setup
 $('div.nav p').hide().css({top: 145+$('li.currentTrack').outerHeight()+'px', opacity: '0'}, 1000); 	
 	setTimeout(function(){$('div.nav p').show().animate({top: 140+$('li.currentTrack').outerHeight()+'px', opacity: '1'}, 1000)}, 6000);
 
@@ -31,6 +32,8 @@ var prevImageClass = $('li.currentImage');
 var prevTrackNumberClass = $('li.currentTrackNumber');
 
 var videoDuration = 0;
+
+var audioTrackLength = 0;
 
 
 
@@ -111,6 +114,17 @@ var first = $('ol.audioArray a').attr('data-src');
 $('ol.audioArray li').first().addClass('playing');
 /* audio.load(first); */
 
+var audioFile = document.getElementById('audioFile');
+
+audioFile.addEventListener("timeupdate", function(event){
+	
+	audioTrackLength = Math.round(($('li.currentTrackNumber').innerWidth()/audioFile.duration)*audioFile.currentTime);
+	console.log(audioTrackLength);
+	$('#songDuration').css("width", audioTrackLength);
+	
+	});
+
+
 
 $.fn.incrementAudioClass = function(){
 	
@@ -122,19 +136,18 @@ $.fn.incrementAudioClass = function(){
 //returns song url to be loaded and played			
 	audio.load($('a', this).attr('data-src')); 
 	
+
+	
 	//wait to play audio during video
 setTimeout(function(){	
 		setTimeout(function(){audio.play()}, videoDuration/2); 
 	}, 250);
 	
-/*
-	audio.addEventListener ('loadedmetadata', function(){
-		audioDuration = audio.duration;
-  		console.log(audioDuration); 
-	});
-*/
-	
+
+		
 }
+
+
 
 //arrow animation
 $.fn.navFade = function(){
@@ -163,14 +176,17 @@ $.fn.incrementTrackNumberClass = function(){
 		.addClass('inactiveTrackNumber');
 		
 //trackNumber animation setup reset --> animation
-	$('li.inactiveTrackNumber').animate({top: '70px', opacity: '1'}, 2000).hide();	
+	$('li.inactiveTrackNumber').animate({top: '70px', opacity: '1'}, 2000).hide();
+	$('#songDuration').animate({opacity: '0'}, 1000).hide();	
 
 setTimeout(function (){
 	setTimeout(function(){
-		$('li.currentTrackNumber').show().animate({top: '100px', opacity: '1'}, 1000)
+		$('li.currentTrackNumber').show().animate({top: '100px', opacity: '1'}, 1000);
+		setTimeout(function(){
+			$('#songDuration').show().animate({top: $('li.currentTrackNumber').height()-45+'px', opacity: '1'}, 4000);
+		}, 2000)
 	}, videoDuration+750);
 	
-/* 	console.log("track Number loop" + ' ' + videoDuration+500); */
 	
 	}, 200);
 }
@@ -221,7 +237,7 @@ $.fn.incrementImageClass = function(){
 	
 //timer to set background image to reduce ghosting before video
 	setTimeout( function(){
-		$('body').css({'background-image' : "url(" + imageBackground + ")"});	
+		$('body').css({'background-image' : "url(" + imageBackground + ")"}).fadeIn();	
 	}, 2000);
 		
 }
